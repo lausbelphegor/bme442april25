@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Quantitative Analysis of Prion Disease Using an AI-Powered Digital Pathology Framework</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Quantitative Analysis of Prion Disease Using an AI-Powered Digital Pathology Framework</h>
+					<p><small><a href="https://www.nature.com/articles/s41598-023-44782-4.pdf"><small>pdf</small></a></small></p>
+					<aside class="notes">Today, I will guide you through how this study leveraged both machine learning and deep learning techniques and enhanced the accuracy and efficiency of diagnosing prion diseases.</aside>
+				</section>
+				<section>
+					<h2>Prion Diseases</h2>
+					<p>Prion diseases are a group of rare, transmissible, untreatable, and fatal brain diseases that affect mammals. They are caused by abnormally folded proteins called prions.</p>
+					<aside class="notes">Their cause is highly unusual: The host's normal prion protein can, for unknown reasons, malfunction and assemble into structured aggregates called prions that cause infectious brain disease</aside>
+				</section>
+				<section>
+					<h2>Study Aim</h2>
+					<ul>
+						<li class="fragment">Classify Whole Slide Images (WSIs) as positive or negative for prion disease</li>
+						<li class="fragment">Quantify prion proteins distribution across tissue sections</li>
+					</ul>
+					<aside class="notes">The primary goal of the study classifies WSIs for prion disease and quantify prion proteins distribution across tissue sections. The study aims to leverage AI to improve the diagnostic process for prion diseases, potentially extending this methodology to other neurodegenerative disorders.</aside>
+				</section>
+				<section>
+					<section>
+						<h2>Dataset Overview</h2>
+						<p class="fragment">Slides were sourced from Piedmont Reference Center for Diagnosis and Monitoring of Prion Diseases (DOMP) ( 2002 - 2008 )</p>
+						<p class="fragment">Archived paraffin-embedded tissue blocks</p>
+						<p class="fragment">Immunohistochemical staining for prion proteins</p>
+					</section>
+					
+					<section>
+						<div class="container" >
+							
+							<img class="col" src=".\public\images\pos-neg.png" alt="pos-neg WSIs" height="500" width="500">
+
+							<ul class="col">
+								<li class="fragment"> Scanners used
+									<ul>
+										<li >Ventana DP200</li>
+										<li >Aperio T2</li>
+									</ul>
+								</li>
+								<li class="fragment">41 patients, 64 slides</li>
+								<li class="fragment">from cerebellum(36) and occipital lobe(28)</li>
+							</ul>
+						</div>
+						<aside class="notes" ></aside>
+					</section>
+				</section>
+				<section>
+					<h2>System Input</h2>
+					<p>Whole Slide Images (WSIs) with immunohistochemical staining for prion proteins</p>
+					
+					<aside class="notes">
+						The input to the system is carefully prepared to ensure high-quality data for analysis. By utilizing WSIs with immunohistochemical staining and preprocessing techniques, the AI framework can accurately identify and quantify prion protein distributions, providing a solid foundation for diagnosis and research.
+					</aside>
+				</section>
+				<section>
+					<section>
+						<h2>Feature Extraction & Machine Learning Methods</h2>
+						<ul>
+							<li class="fragment">Texture Analysis</li>
+							<li class="fragment"><a href="https://arxiv.org/pdf/1807.10221.pdf">UPerNet</a> for multi-scale feature extraction combined with the <a href="https://arxiv.org/pdf/2104.13840.pdf">TWINS</a> system</li>
+							
+							<li class="fragment">Classifiers used
+								<ul>
+									<li class="fragment">K-Nearest Neighbors (KNN)</li>
+									<li class="fragment">Support Vector Machine (SVM)</li>
+									<li class="fragment">Random Forest (RF)</li>
+									<li class="fragment">Artificial Neural Network (ANN)</li>
+								</ul>
+							</li>
+						</ul>
+						<aside></aside>
+					</section>
+					<section>
+						<img class="col" src=".\public\images\flow.png" alt="" >
+						
+					</section>
+					<section>
+						<h2>Texture Analysis</h2>
+						<ul>
+							<li class="fragment">Extraction of textural features from histopathological images</li>
+							
+							<li class="fragment">Use of first and second-order statistics to analyze pixel distributions</li>
+								<ul>
+									<li class="fragment">Gray-level co-occurrence matrix (GLCM)</li>
+									<li class="fragment">Gray-level run length matrix (GLRLM)</li>
+									<li class="fragment">Local binary pattern (LBP)</li>
+								</ul>
+							</li>
+							<li class="fragment">Expected Outcome: Differentiation of normal and prion protein aggregate textures</li>
+						  </ul>
+						  <aside class="notes">
+							Texture analysis is an integral part of the feature extraction process in this study. It provides detailed information about the spatial arrangement of pixels, which is crucial for differentiating prion disease markers. By utilizing established statistical methods like GLCM, GLRLM, and LBP, researchers can transform visual information into a quantifiable format that improves the diagnostic capabilities of AI algorithms.
+						  </aside>
+					</section>
+					
+					<section>
+						<div class="container">
+							<img class="col" src=".\public\images\rgb-grayscale-deltae.png" alt="RGB, Grayscale, and DeltaE images comparison" >
+
+						<aside class="notes">
+						  This slide presents the initial step in feature extraction, displaying RGB, Grayscale, and DeltaE images. Notably, the DeltaE image is advantageous because it accentuates the red staining of prion proteins, which is crucial for identifying the presence of prions in the tissue samples.
+						</aside>
+						</div>
+					</section>
+					
+					<section>
+						<h2>DeltaE</h2>
+						<div class="container">
+							<img class="fragment" src=".\public\images\deltae.png" alt="DeltaE image" height="500" width="500">
+							<ul>
+
+								<li class="fragment">L: lightness or brightness of the color</li>
+								<li class="fragment">a: red-green axis</li>
+								<li class="fragment">b: blue-yellow axis</li>
+								<li class="fragment">DeltaE represents the difference between two colors</li>
+								<li class="fragment">Useful for emphasizing the differences in staining</li>
+								
+							</ul>
+							
+						</div>
+						
+						<aside class="notes">
+						  DeltaE represents the difference between two colors, which is particularly useful in this study for emphasizing the differences in staining, a critical factor for identifying prion protein aggregates.
+						</aside>
+					</section>
+					<section>
+						\[\begin{aligned}
+						\text{ΔE} &= \sqrt{(L_i - L_r)^2 + (a_i - a_r)^2 + (b_i - b_r)^2}
+						\end{aligned}\]
+					</section>
+					<section>
+						<img class="col" src=".\public\images\upernet-twins.png" alt="UPerNet" >
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>System Output</h2>
+						<table>
+							<tr >
+								<th>Output Component</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td><small>WSI Classification</small></td>
+								<td><small>Classifies WSIs as positive or negative for prion disease.</small></td>
+							</tr>
+							<tr>
+								<td><small>Prion Protein Quantification</small></td>
+								<td><small>Provides quantitative analysis of prion protein distribution across tissue sections.</small></td>
+							</tr>
+							<tr>
+								<td><small>Visualization Aids</small></td>
+								<td><small>Employs binary masks to highlight significant prion protein expression areas.</small></td>
+							</tr>
+						</table>
+						<aside class="notes">
+							The system's output is designed to offer both quantitative and qualitative insights into the prion protein distribution, aiding in the accurate diagnosis of prion diseases.
+						</aside>
+					</section>
+					<section>
+						<img class="col" src=".\public\images\output-dist.png"  alt="System Output" >
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Results Overview</h2>
+						<table>
+							<tr>
+								<th>Aspect</th>
+								<th>Details</th>
+								<th>Performance</th>
+							</tr>
+							<tr>
+								<td><small>Machine Learning Accuracy</small></td>
+								<td><small>Employing classifiers (KNN, SVM, RF, ANN) with optimized hyperparameters and feature sets.</small></td>
+								<td><small>Over 90% accuracy, with ANN achieving 97.6% on the validation set.</small></td>
+							</tr>
+							<tr>
+								<td><small>Deep Learning Segmentation</small></td>
+								<td><small>UPerNet-Twins model focusing on histopathological pattern segmentation.</small></td>
+								<td><small>DSC of 73.7% (Train) and 70.2% (Val), Accuracy of over 93% for both sets.</small></td>
+							</tr>
+							<tr>
+								<td><small>WSI Labeling Efficiency</small></td>
+								<td><small>Smart patch extraction method for efficient WSI analysis.</small></td>
+								<td><small>Speeds up inference by up to 700%, with high accuracy in patient classification.</small></td>
+							</tr>
+						</table>
+						<aside class="notes">
+							The tabulated results demonstrate the high accuracy and efficiency of the AI framework in diagnosing and analyzing prion diseases, showcasing significant improvements in speed and diagnostic reliability.
+						</aside>
+					</section>
+					<section>
+						<img src=".\public\images\patch-level.png" height="650" alt="Results" >
+					</section>
+					<section>
+							<img class="col" src=".\public\images\comparison.png" alt="Results" >
+							<img class="col" src=".\public\images\ann-upernet-comp.png" alt="Results" >						
+					</section>
+				</section>
+				
+			</div>
+		</div>
+		<style>
+			.container{
+				display: flex;
+			}
+			.col{
+				flex: 1;
+			}
+		</style>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
