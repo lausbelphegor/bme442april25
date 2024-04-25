@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>EEG-Based Brain-Computer Interface Framework</title>
+		<title>EEG-Based BCI Framework</title>
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/black.css">
@@ -13,42 +13,105 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<h2>EEG-Based Brain-Computer Interface Framework</h2>
-					<p><small>Exploring advanced EEG decoding methods for BCI applications.</small></p>
-				</section>
-				<section>
-					<h2>Introduction to EEG and BCI</h2>
-					<p>BCI systems interpret brain signals to perform tasks. EEGs record electrical activity, crucial for BCIs.</p>
+					<h2>Object Prediction with EEG-Conformer Model</h2>
 				</section>
 				<section>
 					<h2>Project Aim</h2>
-					<ul>
-						<li>Develop a robust EEG decoding model using convolutional and self-attention mechanisms.</li>
-						<li>Enhance BCI performance and user interaction.</li>
-					</ul>
+					<p>To predict objects based on the eeg signals of the subject</p>
 				</section>
 				<section>
-					<h2>Dataset Overview</h2>
-					<p>Data from 50 subjects viewing images, recording EEG responses, aim to improve decoding accuracy.</p>
+					<section>
+						<h2>Dataset Overview</h2>
+						<p>Data from 50 subjects viewing images, recording EEG responses.</p>
+						<p><small><a href="https://openneuro.org/datasets/ds003825/versions/1.2.0">Data Link</a></small></p>
+					</section>
+					<section>
+						<img src=".\public\images\data1.png" alt="EEG" style="width: 50%;">
+						<p><small><a href="https://osf.io/b7ve9">Object Concepts Metadata</a></small></p>
+					</section>
+					<section>
+						<img src=".\public\images\example_sequence.gif" alt="EEG" style="width: 100%;">
+					</section>
+					<section>
+						<div class="container" >
+							<img class="col" src=".\public\images\data2.png" alt="EEG" style="width: 60%;">
+							<ul class="col" >
+								<!-- Results for the 200 validation images that were repeated 12 times at the end of the session. (A) mean pairwise classification accuracy over time. (B) Mean pairwise decoding over time, per subject, sorted by peak classification accuracy. Subjects 1 and 6 are not shown as they did not have data on the validation images. (C) Noise ceiling over time shows the expected correlation of the ‘true’ model with the RDMs of the validation images and reflects the between-subject variance in the RDMs. -->
+								<small>Results for the 200 validation images that were repeated 12 times at the end of the session.</small>
+								<li><small>(A) mean pairwise classification accuracy over time.</small></li>
+								<li><small>(B) Mean pairwise decoding over time, per subject, sorted by peak classification accuracy.</small></li>
+								<li><small>(C) Noise ceiling over time shows the expected correlation of the ‘true’ model with the RDMs of the validation images and reflects the between-subject variance in the RDMs.</small></li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<div class="container" >
+							<img class="col" src=".\public\images\rdm.png" alt="EEG" style="width: 30%;">
+							<ul class="col" >
+								<small>Results for the 1,854 image concepts that were repeated 12 times (using a different image each time). </small>
+								<li><small>(A) Full 1,854 × 1,854 Representational Dissimilarity Matrix(RDM) at 200 ms, arranged by high-level category.</small></li>
+								<li><small>(B) Zoomed in section of the full RDM.</small></li>
+								<li><small>(C) Mean pairwise classification accuracy between concepts over time.</small></li>
+								<li><small>(D) Correlation over time between the neural RDM and four high-level categorical models.</small></li>
+							</ul>
+						</div>
+					</section>
 				</section>
 				<section>
-					<h2>System Input and Output</h2>
-					<p>Input: Multi-channel EEG data. Output: Predicted cognitive states or object categories.</p>
+						<h2>System Input and Output</h2>
+						<p>Input: EEG signals from 64 electrodes, sampled at 250Hz.</p>
+						<p>Output: Object prediction from 1,854 image concepts.</p>
 				</section>
 				<section>
-					<h2>Neural Network Architecture</h2>
-					<p>Description of the EEG Conformer architecture, combining convolutional and attention layers.</p>
-				</section>
-				<section>
-					<h2>Expected Outcomes</h2>
-					<p>Anticipate improvements in decoding speed and accuracy, facilitating more responsive BCIs.</p>
-				</section>
-				<section>
-					<h2>Conclusion</h2>
-					<p>Summarize the expected impact on BCI technology and future research directions.</p>
+					<section>
+						<h2>Neural Network Architecture</h2>
+						<p><small><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9991178">Model</a></small></p>
+					</section>
+					<section>
+						<small>
+							<ul>
+								<li>EEG Input</li>
+								<li> Convolutional Layers
+									<ul> 
+										<li>Temporal: Capturing temporal dependencies in the eeg signal</li>
+										<li>Spatial: Capturing spatial dependencies between electrodes</li>
+									</ul>
+								</li>
+								<li> Pooling Layers
+									<ul> 
+										<li>Pooling: Temporal dimension reduction</li>
+										<li>Avg. Pooling: Spatial dimension reduction</li>
+									</ul>
+								</li>
+								<li>Tokenization: 2D-to-Seq</li>
+								<li>Linear Layer Before Self-Attention</li>
+								<li>N x Self-Attention
+									<ul> 
+										<li>Q (Query), K (Key), V (Value) matrices</li>
+										<li>Dot Product</li>
+										<li>Scaling</li>
+										<li>Softmax</li>
+										<li>Feed-Forward</li>
+									</ul>
+								</li>
+								<li>Classifier</li>
+							</ul>
+						</small>
+					</section>
+					<section>
+						<img src=".\public\images\eegconformer.png" alt="EEG" style="width: 100%;">
+					</section>
 				</section>
 			</div>
 		</div>
+		<style>
+			.container{
+				display: flex;
+			}
+			.col{
+				flex: 1;
+			}
+		</style>
 		<script src="dist/reveal.js"></script>
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
